@@ -1,6 +1,8 @@
 {
     "require": {
-            "silex/silex": "1.0.*"
+        "silex/silex": "1.0.*",
+        "braintree/braintree_php": "2.19.0"
+
     },
     "minimum-stability": "dev"
 }

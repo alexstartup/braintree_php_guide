@@ -1,6 +1,5 @@
 <?php
 
-require_once 'braintree-php-2.14.0/lib/Braintree.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 Braintree_Configuration::environment('sandbox');
@@ -11,17 +10,21 @@ Braintree_Configuration::privateKey('your_private_key');
 
 global $app;
 $app = new Silex\Application();
+$app['debug'] = true;
 
 $app->get('/', function () {
     include 'views/form.php';
+    return "";
 });
 
 $app->get("/braintree", function () {
-       include 'views/response.php';
+    include 'views/response.php';
+    return "";
 });
 
 $app->get('/subscriptions', function () {
-     include 'views/subscriptions.php';
+    include 'views/subscriptions.php';
+    return "";
 });
 
 $app->run();
