@@ -1,44 +1,43 @@
-<?php
-$trData = Braintree_TransparentRedirect::createCustomerData(
-  array('redirectUrl' => 'http://localhost:8080/braintree'));
-?>
-
 <html>
   <head>
-    <style type='text/css'>label {display: block;} input {margin-bottom: 10px;}</style>
   </head>
   <body>
     <h1>Braintree Credit Card Transaction Form</h1>
-    <form id='payment-form' action='<?php echo Braintree_TransparentRedirect::url() ?>' method='POST'>
-      <input type='hidden' name='tr_data' value='<?php echo htmlentities($trData) ?>' />
-      <div>
+    <div>
+      <form action='/create_customer' method='POST' id="braintree-payment-form">
         <h2>Customer Information</h2>
-        <label for='customer_first_name'>First Name</label>
-        <input type='text' name='customer[first_name]' id='customer_first_name'></input>
-        <label for='customer_last_name'>Last Name</label>
-        <input type='text' name='customer[last_name]' id='customer_last_name'></input>
-        <label for='customer_email'>Email</label>
-        <input type='text' name='customer[email]' id='customer_email'></input>
-        <h2>Billing Address</h2>
-        <label for='billing_street_address'>Street Address</label>
-        <input type='text' name='customer[credit_card][billing_address][street_address]' id='billing_street_address'></input>
-        <label for='billing_extended_address'>Extended Address</label>
-        <input type='text' name='customer[credit_card][billing_address][extended_address]' id='billing_extended_address'></input>
-        <label for='billing_locality'>Locality</label>
-        <input type='text' name='customer[credit_card][billing_address][locality]' id='billing_locality'></input>
-        <label for='billing_region'>Region</label>
-        <input type='text' name='customer[credit_card][billing_address][region]' id='billing_region'></input>
-        <label for='billing_postal_code'>Postal Code</label>
-        <input type='text' name='customer[credit_card][billing_address][postal_code]' id='billing_postal_code'></input>
-      </div>
-      <div>
+        <p>
+          <label>First Name</label>
+          <input type='text' name='first_name' id='first_name'></input>
+        </p>
+        <p>
+          <label for='last_name'>Last Name</label>
+          <input type='text' name='last_name' id='last_name'></input>
+        </p>
+        <p>
+          <label for='postal_code'>Postal Code</label>
+          <input type='text' name='postal_code' id='postal_code'></input>
+        </p>
         <h2>Credit Card</h2>
-        <label for='braintree_credit_card_number'>Credit Card Number</label>
-        <input type='text' name='customer[credit_card][number]' id='braintree_credit_card_number' value='4111111111111111'></input>
-        <label for='braintree_credit_card_exp'>Credit Card Expiry (mm/yyyy)</label>
-        <input type='text' name='customer[credit_card][expiration_date]' id='braintree_credit_card_exp' value='12/2015'></input>
-      </div>
+        <p>
+          <label>Card Number</label>
+          <input type="text" size="20" autocomplete="off" data-encrypted-name="number" />
+        </p>
+        <p>
+          <label>CVV</label>
+          <input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" />
+        </p>
+        <p>
+          <label>Expiration (MM/YYYY)</label>
+          <input type="text" size="2" data-encrypted-name="month" /> / <input type="text" size="4" data-encrypted-name="year" />
+        </p>
         <input class='submit-button' type='submit' />
-    </form>
+      </form>
+    </div>
+    <script type="text/javascript" src="https://js.braintreegateway.com/v1/braintree.js"></script>
+    <script type="text/javascript">
+      var braintree = Braintree.create("YourClientSideEncryptionKey");
+      braintree.onSubmitEncryptForm('braintree-payment-form');
+    </script>
   </body>
 </html>
